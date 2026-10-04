@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday Sayang ❤️</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,400&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #fbf3eb;
+      color: #4a4a4a;
+      overflow-x: hidden;
+    }
+
+    /* === SECTION 1: UCAPAN UTAMA === */
+    .section-red {
+      height: 100vh;
+      background: linear-gradient(135deg, #a4133c, #c9184a, #ff4d6d);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+      position: relative;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    }
+
+    .sec2-sub {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.4rem;
+      opacity: 0.9;
+      margin-bottom: 12px;
+      letter-spacing: 1px;
+    }
+
+    .sec2-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 4.8rem;
+      line-height: 1.1;
+      font-weight: 700;
+      margin-bottom: 20px;
+      text-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+
+    .sec2-tag {
+      font-size: 0.95rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      opacity: 0.85;
+      border-top: 1px solid rgba(255,255,255,0.3);
+      border-bottom: 1px solid rgba(255,255,255,0.3);
+      padding: 6px 18px;
+      border-radius: 20px;
+    }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 25px;
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+      opacity: 0.7;
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-8px); }
+      60% { transform: translateY(-4px); }
+    }
+
+    /* === SECTION 2: POHON HATI & GALERI === */
+    .section-main {
+      min-height: 100vh;
+      background: radial-gradient(circle at top left, #fffaf5, #fbf3eb);
+      padding: 70px 20px 80px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .top-header {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      color: #9e7762;
+      font-size: 1.3rem;
+      margin-bottom: 40px;
+      text-align: center;
+      position: relative;
+    }
+
+    .top-header::after {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 2px;
+      background: #b5838d;
+      margin: 8px auto 0 auto;
+      border-radius: 2px;
+    }
+
+    .main-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 950px;
+      gap: 50px;
+      margin-bottom: 70px;
+    }
+
+    /* GLASSMORPHISM CARD */
+    .card-left {
+      background: rgba(255, 255, 255, 0.65);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 40px 45px;
+      border-radius: 24px;
+      box-shadow: 0 15px 35px rgba(181, 131, 141, 0.12);
+      max-width: 400px;
+      width: 100%;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card-left:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(181, 131, 141, 0.18);
+    }
+
+    .card-subtitle {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      color: #b5838d;
+      font-size: 1rem;
+      margin-bottom: 8px;
+    }
+
+    .card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.5rem;
+      line-height: 1.05;
+      color: #c9184a;
+      font-weight: 700;
+      margin-bottom: 18px;
+    }
+
+    .card-footer {
+      font-size: 0.85rem;
+      color: #8d6e63;
+      letter-spacing: 0.5px;
+      font-weight: 500;
+    }
+
+    /* DESAIN WADAH POHON */
+    .tree-right {
+      position: relative;
+      width: 400px;
+      height: 400px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* SVG BATANG POHON ELEGAN SEPERTI REFERENSI */
+    .trunk-svg {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 160px;
+      height: 250px;
+      z-index: 1;
+      filter: drop-shadow(0px 8px 10px rgba(0,0,0,0.1));
+    }
+
+    .crown-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 400px;
+      height: 400px;
+      z-index: 2;
+    }
+
+    #heartTreeCanvas {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* GALERI FOTO */
+    .gallery-section {
+      width: 100%;
+      max-width: 850px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .gallery-title {
+      font-family: 'Playfair Display', serif;
+      color: #5c3d2e;
+      font-size: 1.8rem;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      width: 100%;
+    }
+
+    .photo-card {
+      background: #ffffff;
+      padding: 10px 10px 15px 10px;
+      border-radius: 16px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+
+    .photo-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 15px 30px rgba(201, 24, 74, 0.15);
+    }
+
+    .photo-card img {
+      width: 100%;
+      aspect-ratio: 1/1;
+      object-fit: cover;
+      border-radius: 10px;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .photo-caption {
+      text-align: center;
+      font-size: 0.75rem;
+      color: #b5838d;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+    }
+
+    @media (max-width: 768px) {
+      .sec2-title { font-size: 3.2rem; }
+      .main-content {
+        flex-direction: column-reverse;
+        gap: 40px;
+      }
+      .card-left {
+        text-align: center;
+        max-width: 100%;
+      }
+      .tree-right {
+        width: 340px;
+        height: 340px;
+      }
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TRANSISI MERAH HAPPY BIRTHDAY -->
+  <section class="section-red">
+    <div class="sec2-sub">make a wish...</div>
+    <h1 class="sec2-title">Happy<br>Birthday</h1>
+    <div class="sec2-tag">to someone worth celebrating</div>
+    <div class="scroll-indicator">SCROLL DOWN 👇</div>
+  </section>
+
+  <!-- POHON HATI & GALERI -->
+  <section class="section-main" id="mainSection">
+    <div class="top-header">Blooming Wishes 🌸</div>
+
+    <div class="main-content">
+      <div class="card-left">
+        <div class="card-subtitle">and... make it count</div>
+        <h1 class="card-title">Happy<br>Birthday</h1>
+        <div class="card-footer">here's to a year that blooms ✨</div>
+      </div>
+
+      <div class="tree-right">
+        <!-- Batang Pohon Elegan (SVG) -->
+        <svg class="trunk-svg" viewBox="0 0 160 250" xmlns="http://www.w3.org/2000/svg">
+          <path d="M 72 250 C 72 200, 68 150, 62 120 C 58 100, 52 80, 42 65 C 38 60, 46 54, 52 60 C 65 75, 75 95, 82 120 C 88 95, 98 75, 112 60 C 118 54, 126 60, 120 66 C 108 80, 100 100, 95 120 C 88 150, 85 200, 85 250 Z" fill="#7a3f3a"/>
+        </svg>
+
+        <div class="crown-container">
+          <canvas id="heartTreeCanvas"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="gallery-section">
+      <div class="gallery-title">Beautiful Memories 📸</div>
+
+      <div class="gallery-grid">
+        <div class="photo-card">
+          <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400" alt="Foto 1">
+          <div class="photo-caption">Sweet Moments ❤️</div>
+        </div>
+        <div class="photo-card">
+          <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400" alt="Foto 2">
+          <div class="photo-caption">Precious Smiles ✨</div>
+        </div>
+        <div class="photo-card">
+          <img src="photo3.jpg" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400'" alt="Foto 3">
+          <div class="photo-caption">Happy Days 🌸</div>
+        </div>
+        <div class="photo-card">
+          <img src="photo4.jpg" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400'" alt="Foto 4">
+          <div class="photo-caption">Best Memories 💫</div>
+        </div>
+        <div class="photo-card">
+          <img src="photo5.jpg" onerror="this.src='https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400'" alt="Foto 5">
+          <div class="photo-caption">Lovely Times 💖</div>
+        </div>
+        <div class="photo-card">
+          <img src="photo6.jpg" onerror="this.src='https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=400'" alt="Foto 6">
+          <div class="photo-caption">Forever & Always 🌹</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    setTimeout(() => {
+      document.getElementById('mainSection').scrollIntoView({ behavior: 'smooth' });
+      bloomTreeAnimation();
+
+      confetti({
+        particleCount: 60,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+    }, 1200);
+
+    /* ANIMASI MAHKOTA HATI PADAT MERATA SEPERTI REFERENSI */
+    const treeCanvas = document.getElementById('heartTreeCanvas');
+    const ctxTree = treeCanvas.getContext('2d');
+
+    function initTreeCanvas() {
+      treeCanvas.width = 400;
+      treeCanvas.height = 400;
+    }
+    initTreeCanvas();
+
+    const colors = ['#ff0054', '#ff5400', '#ffbd00', '#ff4d6d', '#ff758f', '#ffb3c1', '#c9184a', '#ff8fa3'];
+    let hearts = [];
+
+    function drawHeart(x, y, size, color, alpha) {
+      ctxTree.save();
+      ctxTree.globalAlpha = alpha;
+      ctxTree.fillStyle = color;
+      ctxTree.beginPath();
+      ctxTree.moveTo(x, y);
+      ctxTree.bezierCurveTo(x - size / 2, y - size / 2, x - size, y + size / 3, x, y + size);
+      ctxTree.bezierCurveTo(x + size, y + size / 3, x + size / 2, y - size / 2, x, y);
+      ctxTree.fill();
+      ctxTree.restore();
+    }
+
+    function generateHeartNodes() {
+      hearts = [];
+      const totalHearts = 700;
+      const centerX = 200;
+      const centerY = 145;
+      const scale = 10.5;
+
+      for (let i = 0; i < totalHearts; i++) {
+        let t = Math.random() * Math.PI * 2;
+        // Sebaran merata agar mahkota hati penuh natural seperti di foto referensi
+        let r = Math.pow(Math.random(), 0.6);
+
+        let heartX = 16 * Math.pow(Math.sin(t), 3) * r;
+        let heartY = -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t)) * r;
+
+        let targetX = centerX + heartX * scale;
+        let targetY = centerY + heartY * scale;
+
+        hearts.push({
+          x: targetX,
+          y: targetY,
+          size: Math.random() * 5.5 + 3.5,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          progress: 0,
+          speed: Math.random() * 0.03 + 0.015,
+          delay: Math.random() * 35
+        });
+      }
+    }
+
+    let treeFrame = 0;
+    function animateTree() {
+      ctxTree.clearRect(0, 0, treeCanvas.width, treeCanvas.height);
+
+      let completed = true;
+      hearts.forEach(h => {
+        if (treeFrame > h.delay) {
+          if (h.progress < 1) {
+            h.progress += h.speed;
+            completed = false;
+          }
+          let currentAlpha = Math.min(h.progress, 1);
+          let currentSize = h.size * Math.sin(currentAlpha * Math.PI / 2);
+          drawHeart(h.x, h.y, currentSize, h.color, currentAlpha);
+        } else {
+          completed = false;
+        }
+      });
+
+      treeFrame++;
+      if (!completed) {
+        requestAnimationFrame(animateTree);
+      }
+    }
+
+    function bloomTreeAnimation() {
+      treeFrame = 0;
+      generateHeartNodes();
+      animateTree();
+    }
+  </script>
+</body>
+</html>

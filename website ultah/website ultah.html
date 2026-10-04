@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Special Wish ❤️</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,400&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: radial-gradient(circle at center, #fff0f3 0%, #ffccd5 60%, #ffb3c1 100%);
+      color: #4a4a4a;
+      height: 100vh;
+      width: 100vw;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.8s ease-in-out;
+    }
+
+    .petal {
+      position: absolute;
+      background: linear-gradient(135deg, #ff758f, #ffb3c1);
+      border-radius: 15px 0 15px 0;
+      opacity: 0.6;
+      pointer-events: none;
+      animation: floatPetal 7s linear infinite;
+      filter: blur(0.5px);
+    }
+
+    @keyframes floatPetal {
+      0% {
+        transform: translateY(-10vh) rotate(0deg) scale(0.8);
+        opacity: 0.7;
+      }
+      100% {
+        transform: translateY(110vh) rotate(360deg) scale(1.2);
+        opacity: 0.1;
+      }
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.45);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      border-radius: 30px;
+      padding: 35px 30px;
+      box-shadow: 0 20px 50px rgba(255, 117, 143, 0.25);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 2;
+      position: relative;
+      width: 90%;
+      max-width: 360px;
+    }
+
+    .subtitle {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.2rem;
+      color: #c9184a;
+      margin-bottom: 25px;
+      letter-spacing: 1px;
+    }
+
+    .heart-wrapper {
+      position: relative;
+      margin-bottom: 40px;
+    }
+
+    .heart-glow {
+      width: 120px;
+      height: 120px;
+      background: radial-gradient(circle, #ff4d6d 10%, #ff758f 50%, rgba(255,255,255,0) 80%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 60px;
+      box-shadow: 0 0 35px rgba(255, 77, 109, 0.5);
+      animation: pulseGlow 2s infinite ease-in-out;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      user-select: none;
+    }
+
+    .heart-glow.locked {
+      box-shadow: 0 0 60px rgba(255, 77, 109, 0.9);
+      transform: scale(1.12);
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { transform: scale(1) translateY(0); }
+      50% { transform: scale(1.06) translateY(-5px); }
+    }
+
+    .shockwave {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 10px;
+      height: 10px;
+      border: 3px solid #ff4d6d;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .shockwave.active {
+      animation: shockwaveAnim 0.6s ease-out forwards;
+    }
+
+    @keyframes shockwaveAnim {
+      0% { width: 10px; height: 10px; opacity: 1; border-width: 4px; }
+      100% { width: 220px; height: 220px; opacity: 0; border-width: 1px; }
+    }
+
+    .game-box {
+      position: relative;
+      width: 100%;
+      height: 140px;
+      touch-action: none;
+    }
+
+    /* Wadah Panah SVG (Pilihan 1) */
+    .arrow-drag {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      cursor: grab;
+      user-select: none;
+      z-index: 10;
+      transform-origin: center center;
+    }
+
+    .arrow-drag svg {
+      width: 100%;
+      height: 100%;
+      filter: drop-shadow(0px 4px 6px rgba(201, 24, 74, 0.35));
+    }
+
+    .arrow-drag:active {
+      cursor: grabbing;
+    }
+
+    .pull-text {
+      position: absolute;
+      bottom: -15px;
+      width: 100%;
+      text-align: center;
+      font-size: 0.75rem;
+      letter-spacing: 2.5px;
+      color: #a4133c;
+      font-weight: 600;
+      animation: blink 1.5s infinite;
+      user-select: none;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    #gameCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+    }
+
+    .heart-spark {
+      position: absolute;
+      pointer-events: none;
+      font-size: 22px;
+      animation: explode 0.8s ease-out forwards;
+      z-index: 100;
+    }
+
+    @keyframes explode {
+      0% { opacity: 1; transform: translate(0, 0) scale(1) rotate(0deg); }
+      100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(0.3) rotate(180deg); }
+    }
+
+    .hit-text {
+      position: absolute;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: #ff4d6d;
+      pointer-events: none;
+      animation: floatUp 0.8s ease-out forwards;
+      z-index: 101;
+      text-shadow: 0 2px 10px rgba(255,255,255,0.8);
+    }
+
+    @keyframes floatUp {
+      0% { opacity: 0; transform: translateY(0) scale(0.8); }
+      50% { opacity: 1; transform: translateY(-20px) scale(1.1); }
+      100% { opacity: 0; transform: translateY(-40px) scale(1); }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="petals-container"></div>
+
+  <div class="card">
+    <div class="subtitle">a little wish for you</div>
+    
+    <div class="heart-wrapper">
+      <div class="heart-glow" id="targetHeart">💖</div>
+      <div class="shockwave" id="shockwave"></div>
+    </div>
+
+    <div class="game-box" id="gameBox">
+      <canvas id="gameCanvas"></canvas>
+      
+      <!-- Panah Cinta Klasik (Pilihan 1) -->
+      <div class="arrow-drag" id="arrow">
+        <svg viewBox="0 0 100 100">
+          <!-- Lengkungan Busur Emas -->
+          <path d="M 15,65 Q 50,95 85,65" fill="none" stroke="#d4af37" stroke-width="6" stroke-linecap="round"/>
+          <path d="M 15,65 Q 50,95 85,65" fill="none" stroke="#fff8dc" stroke-width="2" stroke-linecap="round"/>
+          <!-- Tali Busur -->
+          <path d="M 15,65 L 85,65" fill="none" stroke="#ffb3c1" stroke-width="2.5"/>
+          <!-- Batang Panah Pink -->
+          <line x1="50" y1="75" x2="50" y2="20" stroke="#c9184a" stroke-width="4.5" stroke-linecap="round"/>
+          <!-- Mata Panah Hati Presisi -->
+          <path d="M 50,5 C 40,-5 30,12 50,26 C 70,12 60,-5 50,5 Z" fill="#ff4d6d" stroke="#fff" stroke-width="1.5"/>
+          <!-- Bulu Panah Anggun -->
+          <polygon points="50,70 38,82 50,78" fill="#ff758f"/>
+          <polygon points="50,70 62,82 50,78" fill="#ff758f"/>
+        </svg>
+      </div>
+
+      <div class="pull-text">TARIK & LEPASKAN</div>
+    </div>
+  </div>
+
+  <script>
+    // Partikel Bunga Gugur
+    const petalsContainer = document.getElementById('petals-container');
+    for (let i = 0; i < 16; i++) {
+      const petal = document.createElement('div');
+      petal.classList.add('petal');
+      petal.style.left = Math.random() * 100 + 'vw';
+      petal.style.width = Math.random() * 12 + 10 + 'px';
+      petal.style.height = petal.style.width;
+      petal.style.animationDuration = Math.random() * 4 + 6 + 's';
+      petal.style.animationDelay = Math.random() * 5 + 's';
+      petalsContainer.appendChild(petal);
+    }
+
+    const arrow = document.getElementById('arrow');
+    const gameBox = document.getElementById('gameBox');
+    const gameCanvas = document.getElementById('gameCanvas');
+    const targetHeart = document.getElementById('targetHeart');
+    const shockwave = document.getElementById('shockwave');
+    const ctxGame = gameCanvas.getContext('2d');
+
+    function resizeGameCanvas() {
+      const dpr = window.devicePixelRatio || 1;
+      gameCanvas.width = gameBox.clientWidth * dpr;
+      gameCanvas.height = gameBox.clientHeight * dpr;
+      gameCanvas.style.width = gameBox.clientWidth + 'px';
+      gameCanvas.style.height = gameBox.clientHeight + 'px';
+      ctxGame.scale(dpr, dpr);
+    }
+    resizeGameCanvas();
+    window.addEventListener('resize', resizeGameCanvas);
+
+    let isDragging = false;
+    let hasPulled = false;
+    let hasFired = false;
+    
+    // Posisi Awal Pusat Busur
+    const originX = (gameBox.clientWidth - 50) / 2;
+    const originY = (gameBox.clientHeight - 50) / 2;
+
+    arrow.style.left = originX + 'px';
+    arrow.style.top = originY + 'px';
+
+    // Kalkulasi Arah & Rotasi Presisi
+    function calculateAngleToHeart(currentLeft, currentTop) {
+      const heartRect = targetHeart.getBoundingClientRect();
+      const boxRect = gameBox.getBoundingClientRect();
+
+      // Pusat Hati Target
+      const heartCenterX = (heartRect.left + heartRect.width / 2) - boxRect.left;
+      const heartCenterY = (heartRect.top + heartRect.height / 2) - boxRect.top;
+
+      // Pusat Panah SVG (ukuran 50px x 50px)
+      const arrowCenterX = currentLeft + 25;
+      const arrowCenterY = currentTop + 25;
+
+      let dx = heartCenterX - arrowCenterX;
+      let dy = heartCenterY - arrowCenterY;
+
+      // Desain SVG Pilihan 1 menghadap lurus ke ATAS (membutuhkan offset 90 deg)
+      let angle = (Math.atan2(dy, dx) * 180 / Math.PI) + 90;
+      return { angle, heartCenterX, heartCenterY, arrowCenterX, arrowCenterY };
+    }
+
+    function setInitialOrientation() {
+      const { angle } = calculateAngleToHeart(originX, originY);
+      arrow.style.transform = `rotate(${angle}deg)`;
+    }
+    setInitialOrientation();
+
+    arrow.addEventListener('mousedown', startDrag);
+    arrow.addEventListener('touchstart', startDrag, { passive: false });
+
+    window.addEventListener('mousemove', drag);
+    window.addEventListener('touchmove', drag, { passive: false });
+
+    window.addEventListener('mouseup', release);
+    window.addEventListener('touchend', release);
+
+    function startDrag(e) {
+      if (hasFired) return;
+      isDragging = true;
+      arrow.style.transition = 'none';
+      targetHeart.classList.add('locked');
+    }
+
+    function drag(e) {
+      if (!isDragging || hasFired) return;
+      if (e.cancelable) e.preventDefault();
+
+      const rect = gameBox.getBoundingClientRect();
+      let clientX = e.clientX || (e.touches && e.touches[0].clientX);
+      let clientY = e.clientY || (e.touches && e.touches[0].clientY);
+
+      let mouseX = clientX - rect.left - 25;
+      let mouseY = clientY - rect.top - 25;
+
+      let dx = mouseX - originX;
+      let dy = mouseY - originY;
+      let distance = Math.sqrt(dx * dx + dy * dy);
+
+      const maxPull = 75;
+      if (distance > maxPull) {
+        dx = (dx / distance) * maxPull;
+        dy = (dy / distance) * maxPull;
+        distance = maxPull;
+      }
+
+      if (distance > 12) hasPulled = true;
+
+      let currentX = originX + dx;
+      let currentY = originY + dy;
+
+      arrow.style.left = currentX + 'px';
+      arrow.style.top = currentY + 'px';
+
+      // Update Rotasi Real-Time
+      const { angle, heartCenterX, heartCenterY, arrowCenterX, arrowCenterY } = calculateAngleToHeart(currentX, currentY);
+      arrow.style.transform = `rotate(${angle}deg)`;
+
+      // Gambar Garis Bidik Putus-Putus & Tali Busur
+      ctxGame.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
+      
+      // Garis Bidik
+      ctxGame.beginPath();
+      ctxGame.moveTo(arrowCenterX, arrowCenterY);
+      ctxGame.lineTo(heartCenterX, heartCenterY);
+      ctxGame.strokeStyle = 'rgba(255, 77, 109, 0.45)';
+      ctxGame.lineWidth = 2;
+      ctxGame.setLineDash([6, 6]);
+      ctxGame.stroke();
+
+      // Tali Busur
+      ctxGame.beginPath();
+      ctxGame.setLineDash([]);
+      ctxGame.moveTo(originX + 25 - 15, originY + 25);
+      ctxGame.lineTo(arrowCenterX, arrowCenterY + 10);
+      ctxGame.lineTo(originX + 25 + 15, originY + 25);
+      ctxGame.strokeStyle = '#c9184a';
+      ctxGame.lineWidth = 2.5;
+      ctxGame.stroke();
+    }
+
+    function release() {
+      if (!isDragging) return;
+      isDragging = false;
+      ctxGame.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
+      targetHeart.classList.remove('locked');
+
+      if (!hasPulled || hasFired) {
+        arrow.style.transition = 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+        arrow.style.left = originX + 'px';
+        arrow.style.top = originY + 'px';
+        setInitialOrientation();
+        return;
+      }
+
+      hasFired = true;
+
+      let currentX = parseFloat(arrow.style.left);
+      let currentY = parseFloat(arrow.style.top);
+      const { angle, heartCenterX, heartCenterY } = calculateAngleToHeart(currentX, currentY);
+
+      // Panah Meluncur Tepat ke Pusat Hati
+      arrow.style.transition = 'all 0.35s cubic-bezier(0.25, 1, 0.5, 1)';
+      arrow.style.transform = `rotate(${angle}deg) scale(1.1)`;
+      arrow.style.left = (heartCenterX - 25) + 'px';
+      arrow.style.top = (heartCenterY - 25) + 'px';
+
+      setTimeout(() => {
+        arrow.style.opacity = '0';
+        shockwave.classList.add('active');
+        const heartRect = targetHeart.getBoundingClientRect();
+        createHitText(heartRect);
+        createHeartExplosion(heartRect);
+      }, 330);
+
+      setTimeout(() => {
+        document.body.style.opacity = '0';
+      }, 1000);
+
+      setTimeout(() => {
+        window.location.href = "website ultah hal2.html";
+      }, 1600);
+    }
+
+    function createHitText(rect) {
+      const text = document.createElement('div');
+      text.classList.add('hit-text');
+      text.innerText = "Got Your Heart! ❤️";
+      text.style.left = (rect.left + rect.width / 2 - 70) + 'px';
+      text.style.top = (rect.top - 10) + 'px';
+      document.body.appendChild(text);
+      setTimeout(() => text.remove(), 800);
+    }
+
+    function createHeartExplosion(rect) {
+      const symbols = ['💖', '💕', '✨', '🌸', '❤️', '💘'];
+      for (let i = 0; i < 16; i++) {
+        const spark = document.createElement('div');
+        spark.classList.add('heart-spark');
+        spark.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+        
+        const dx = (Math.random() - 0.5) * 240 + 'px';
+        const dy = (Math.random() - 0.5) * 240 + 'px';
+        spark.style.setProperty('--dx', dx);
+        spark.style.setProperty('--dy', dy);
+
+        spark.style.left = (rect.left + rect.width / 2 - 12) + 'px';
+        spark.style.top = (rect.top + rect.height / 2 - 12) + 'px';
+
+        document.body.appendChild(spark);
+        setTimeout(() => spark.remove(), 800);
+      }
+    }
+  </script>
+</body>
+</html>

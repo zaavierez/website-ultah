@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Harapan & Doa Spesial 🌟</title>
+  <style>
+    /* Background Pink Romantis Gradasi Bergerak */
+    body {
+      margin: 0;
+      padding: 20px;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #ff758c, #ff7eb3, #fccb90, #d57eeb);
+      background-size: 400% 400%;
+      animation: gradientBG 10s ease infinite;
+      font-family: 'Poppins', sans-serif, Arial;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+      overflow-x: hidden;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    h1 {
+      color: #fff;
+      text-shadow: 2px 2px 10px rgba(255, 20, 147, 0.7);
+      margin-bottom: 15px;
+      text-align: center;
+      font-size: 2rem;
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 5px #fff, 0 0 10px #ff1493; }
+      to { text-shadow: 0 0 15px #fff, 0 0 25px #ff69b4; }
+    }
+
+    /* Kotak Pesan Doa */
+    .wish-box {
+      background: rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      padding: 25px 30px;
+      max-width: 420px;
+      text-align: center;
+      color: #4a4a4a;
+      box-shadow: 0 8px 32px 0 rgba(255, 105, 180, 0.37);
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      line-height: 1.8;
+      font-size: 1.05rem;
+      z-index: 10;
+      margin-bottom: 20px;
+    }
+
+    /* Tombol Interaktif Pink */
+    .btn-pink {
+      background: #ff69b4 !important;
+      color: white !important;
+      border: none;
+      padding: 12px 25px;
+      font-size: 1rem;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(255, 105, 180, 0.5);
+      font-weight: bold;
+      transition: all 0.3s ease;
+      margin: 8px;
+    }
+
+    .btn-pink:hover {
+      transform: scale(1.08);
+      background: #ff1493 !important;
+    }
+
+    /* Animasi Bintang/Hati Melayang */
+    .floating-item {
+      position: fixed;
+      bottom: -50px;
+      font-size: 24px;
+      animation: floatUp linear infinite;
+      opacity: 0.8;
+      pointer-events: none;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-110vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Harapan 🎁</h1>
+
+  <div class="wish-box">
+    <p>✨ Semoga semua impian besar yang kamu cita-citakan segera terwujud satu per satu.</p>
+    <p>🌸 Semoga selalu dikelilingi oleh hal-hal baik, orang-orang tulus, dan kebahagiaan tanpa batas.</p>
+    <p>💖 Tetap jadi diri kamu yang ceria dan penyayang ya!</p>
+  </div>
+
+  <!-- Tombol Kejutan Terakhir -->
+  <button class="btn-pink" onclick="kirimPeluk()">Klik Buat Peluk Online! 🫂</button>
+
+  <!-- Animasi Hati / Bintang Melayang -->
+  <script>
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.classList.add('floating-item');
+      
+      const icons = ['❤️', '💖', '✨', '🌸', '🎁', '⭐', '🎈', '🎉'];
+      heart.innerText = icons[Math.floor(Math.random() * icons.length)];
+      
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.animationDuration = Math.random() * 3 + 3 + 's';
+      heart.style.fontSize = Math.random() * 20 + 20 + 'px';
+      
+      document.body.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 6000);
+    }
+
+    setInterval(createHeart, 250);
+
+    function kirimPeluk() {
+      alert("Big Hug Sent! 🫂❤️ Tetap tersenyum terus ya sayang!");
+      for(let i = 0; i < 30; i++) {
+        setTimeout(createHeart, i * 40);
+      }
+    }
+  </script>
+
+</body>
+</html>
